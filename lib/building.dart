@@ -31,7 +31,7 @@ class Building extends StatelessWidget {
                 width: 25,
                 height: 25,
                 decoration: BoxDecoration(
-                  color: Colors.yellow,
+                  color: Colors.blue[100],
                   border: Border.all(width: 4, color: Colors.black),
                 ),
               ),
@@ -43,7 +43,7 @@ class Building extends StatelessWidget {
                 width: 25,
                 height: 25,
                 decoration: BoxDecoration(
-                  color: Colors.yellow,
+                  color: Colors.blue[100],
                   border: Border.all(width: 4, color: Colors.black),
                 ),
               ),
@@ -63,7 +63,7 @@ class Building extends StatelessWidget {
                 width: 25,
                 height: 25,
                 decoration: BoxDecoration(
-                  color: Colors.yellow,
+                  color: Colors.blue[100],
                   border: Border.all(width: 4, color: Colors.black),
                 ),
               ),
@@ -75,7 +75,7 @@ class Building extends StatelessWidget {
                 width: 25,
                 height: 25,
                 decoration: BoxDecoration(
-                  color: Colors.yellow,
+                  color: Colors.blue[100],
                   border: Border.all(width: 4, color: Colors.black),
                 ),
               ),

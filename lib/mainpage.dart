@@ -26,9 +26,10 @@ class _MainPage extends State<MainPage> {
   static double buildingOne = -0.6;
   static double buildingTwo = buildingOne + 0.65;
   double buildingThree = buildingTwo + 0.65;
+  // 背景
+  double back = 1;
 
   void move() {
-    initialHeight = ahiruYaxis;
     setState(() {
       time = 0;
       initialHeight = ahiruYaxis;
@@ -39,7 +40,7 @@ class _MainPage extends State<MainPage> {
     gameHasStarted = true;
     Timer.periodic(Duration(milliseconds: 60), (timer) {
       time += 0.03;
-      height = -4.9 * time * time + 0.3 + time;
+      height = -4.9 * time * time + 0.2 + time;
       setState(() {
         ahiruYaxis = initialHeight - height;
       });
@@ -93,14 +94,65 @@ class _MainPage extends State<MainPage> {
           buildingThree -= 0.1;
         }
       });
+      // 建物 --------------------------------------------------
+      setState(() {
+        if (back < -3) {
+          back += 4.5;
+        } else {
+          back -= 0.01;
+        }
+      });
 
-      if (ahiruYaxis > 1.1) {
+      void dialog() async {
+        var res = await showDialog(
+          context: context,
+          builder: (_) {
+            return AlertDialog(
+              title: Text("wasted"),
+              content: ahiruYaxis > 1.1
+                  ? Text("あひるは死んでしまった!\nもっかいやる?")
+                  : Text('あひるは飛びすぎて宇宙まで行ってしまった。\nそしてあひるは考えるのをやめた。\nもっかいやる？'),
+              actions: <Widget>[
+                // ボタン領域
+                FlatButton(
+                  child: Text("Exit"),
+                  onPressed: () => Navigator.of(context).pop(0),
+                ),
+                FlatButton(
+                  child: Text("Continue"),
+                  onPressed: () => Navigator.of(context).pop(1),
+                ),
+              ],
+            );
+          },
+        );
+        if (res == 1) {
+          // リセット
+          setState(() {
+            ahiruYaxis = 0;
+            time = 0;
+            height = 0;
+            initialHeight = ahiruYaxis;
+            gameHasStarted = false;
+            // 雲
+            cloudOne = 3.5;
+            cloudTwo = cloudOne + 3.5;
+            cloudThree = cloudTwo + 3.5;
+            // 建物
+            buildingOne = -0.6;
+            buildingTwo = buildingOne + 0.65;
+            buildingThree = buildingTwo + 0.65;
+            // 背景
+            back = 1;
+          });
+        }
+      }
+
+      if (ahiruYaxis > 1.1 || ahiruYaxis < -3) {
         timer.cancel();
-        gameHasStarted = false;
+        dialog();
       }
     });
-
-    void reStart() {}
   }
 
   @override
@@ -120,17 +172,20 @@ class _MainPage extends State<MainPage> {
               flex: 5,
               child: Stack(
                 children: [
-                  BackGround(
-                    heightSize: 290.0,
-                    widthSize: 100.0,
-                  ),
-
                   AnimatedContainer(
                     // アヒルの初期位置
                     alignment: Alignment(0, ahiruYaxis),
                     duration: Duration(milliseconds: 0),
                     color: Colors.blue,
                     child: MyAhiru(),
+                  ),
+                  // ? 背景
+                  Container(
+                    alignment: Alignment(back, 1.1),
+                    child: BackGround(
+                      heightSize: 100.0,
+                      widthSize: 100.0,
+                    ),
                   ),
                   // ! ビル１ 高い
                   AnimatedContainer(
@@ -209,23 +264,7 @@ class _MainPage extends State<MainPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'SCORE',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          '0',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'BEST',
+                          'TIME',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                         SizedBox(
