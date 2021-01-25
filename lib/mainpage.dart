@@ -103,6 +103,25 @@ class _MainPage extends State<MainPage> {
         }
       });
 
+      void resetPosition() {
+        ahiruYaxis = 0;
+        time = 0;
+        height = 0;
+        initialHeight = ahiruYaxis;
+        gameHasStarted = false;
+
+        // 雲
+        cloudOne = 3.5;
+        cloudTwo = cloudOne + 3.5;
+        cloudThree = cloudTwo + 3.5;
+        // 建物
+        buildingOne = -0.6;
+        buildingTwo = buildingOne + 0.65;
+        buildingThree = buildingTwo + 0.65;
+        // 背景
+        back = 1;
+      }
+
       void dialog() async {
         var res = await showDialog(
           context: context,
@@ -129,21 +148,11 @@ class _MainPage extends State<MainPage> {
         if (res == 1) {
           // リセット
           setState(() {
-            ahiruYaxis = 0;
-            time = 0;
-            height = 0;
-            initialHeight = ahiruYaxis;
-            gameHasStarted = false;
-            // 雲
-            cloudOne = 3.5;
-            cloudTwo = cloudOne + 3.5;
-            cloudThree = cloudTwo + 3.5;
-            // 建物
-            buildingOne = -0.6;
-            buildingTwo = buildingOne + 0.65;
-            buildingThree = buildingTwo + 0.65;
-            // 背景
-            back = 1;
+            resetPosition();
+          });
+        } else {
+          setState(() {
+            resetPosition();
           });
         }
       }
