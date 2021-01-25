@@ -22,10 +22,16 @@ class _MainPage extends State<MainPage> {
   static double cloudOne = 3.5;
   static double cloudTwo = cloudOne + 3.5;
   double cloudThree = cloudTwo + 3.5;
+  double cloudOneDie = -0.65;
+  double cloudTwoDie = -0.45;
+  double cloudThreeDie = -0.25;
   // 建物
   static double buildingOne = -0.6;
   static double buildingTwo = buildingOne + 0.65;
   double buildingThree = buildingTwo + 0.65;
+  double buildingOneDie = 0.19;
+  double buildingTwoDie = 0.33;
+  double buildingThreeDie = 0.5;
   // 背景
   double back = 1;
 
@@ -103,65 +109,108 @@ class _MainPage extends State<MainPage> {
         }
       });
 
-      void resetPosition() {
-        ahiruYaxis = 0;
-        time = 0;
-        height = 0;
-        initialHeight = ahiruYaxis;
-        gameHasStarted = false;
-
-        // 雲
-        cloudOne = 3.5;
-        cloudTwo = cloudOne + 3.5;
-        cloudThree = cloudTwo + 3.5;
-        // 建物
-        buildingOne = -0.6;
-        buildingTwo = buildingOne + 0.65;
-        buildingThree = buildingTwo + 0.65;
-        // 背景
-        back = 1;
-      }
-
-      void dialog() async {
-        var res = await showDialog(
-          context: context,
-          builder: (_) {
-            return AlertDialog(
-              title: Text("wasted"),
-              content: ahiruYaxis > 1.1
-                  ? Text("あひるは死んでしまった!\nもっかいやる?")
-                  : Text('あひるは飛びすぎて宇宙まで行ってしまった。\nそしてあひるは考えるのをやめた。\nもっかいやる？'),
-              actions: <Widget>[
-                // ボタン領域
-                FlatButton(
-                  child: Text("Exit"),
-                  onPressed: () => Navigator.of(context).pop(0),
-                ),
-                FlatButton(
-                  child: Text("Continue"),
-                  onPressed: () => Navigator.of(context).pop(1),
-                ),
-              ],
-            );
-          },
-        );
-        if (res == 1) {
-          // リセット
-          setState(() {
-            resetPosition();
-          });
-        } else {
-          setState(() {
-            resetPosition();
-          });
-        }
-      }
-
+      //! ゲームオーバー ======================================================
       if (ahiruYaxis > 1.1 || ahiruYaxis < -3) {
         timer.cancel();
         dialog();
       }
+
+      if (cloudOne <= 3 && cloudOne >= -3) {
+        if (ahiruYaxis < cloudOneDie) {
+          print('aaaaaaaaaaaaaaa');
+          timer.cancel();
+          dialog();
+        }
+      }
+      if (cloudTwo <= 2 && cloudTwo >= -1) {
+        if (ahiruYaxis < cloudTwoDie) {
+          print('bbbbbbbbbbbbbb');
+          timer.cancel();
+          dialog();
+        }
+      }
+      if (cloudThree <= 1 && cloudThree >= -1) {
+        if (ahiruYaxis < cloudThreeDie) {
+          print('cccccccccccccccccc');
+          timer.cancel();
+          dialog();
+        }
+      }
+
+      if (buildingOne <= 0.5 && buildingOne >= -0.5) {
+        if (ahiruYaxis > buildingOneDie) {
+          timer.cancel();
+          dialog();
+        }
+      }
+      if (buildingTwo <= 0.5 && buildingTwo >= -0.5) {
+        if (ahiruYaxis > buildingTwoDie) {
+          timer.cancel();
+          dialog();
+        }
+      }
+
+      if (buildingThree <= 0.5 && buildingThree >= -0.5) {
+        if (ahiruYaxis > buildingThreeDie) {
+          timer.cancel();
+          dialog();
+        }
+      }
     });
+  }
+
+  void resetPosition() {
+    ahiruYaxis = 0;
+    time = 0;
+    height = 0;
+    initialHeight = ahiruYaxis;
+    gameHasStarted = false;
+
+    // 雲
+    cloudOne = 3.5;
+    cloudTwo = cloudOne + 3.5;
+    cloudThree = cloudTwo + 3.5;
+    // 建物
+    buildingOne = -0.6;
+    buildingTwo = buildingOne + 0.65;
+    buildingThree = buildingTwo + 0.65;
+    // 背景
+    back = 1;
+  }
+
+  void dialog() async {
+    var res = await showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("wasted"),
+          content: Text("あひるは死んでしまった!\nもっかいやる?"),
+          actions: <Widget>[
+            // ボタン領域
+            FlatButton(
+              child: Text("Exit"),
+              onPressed: () => Navigator.of(context).pop(0),
+            ),
+            FlatButton(
+              child: Text("Continue"),
+              onPressed: () => Navigator.of(context).pop(1),
+            ),
+          ],
+        );
+      },
+    );
+    if (res == 0) {
+      // リセット
+      setState(() {
+        resetPosition();
+      });
+    } else if (res == 1) {
+      setState(() {
+        resetPosition();
+      });
+    } else {
+      dialog();
+    }
   }
 
   @override
