@@ -44,7 +44,7 @@ class _MainPage extends State<MainPage> {
 
   void startGame() {
     gameHasStarted = true;
-    Timer.periodic(Duration(milliseconds: 60), (timer) {
+    Timer.periodic(Duration(milliseconds: 40), (timer) {
       time += 0.03;
       height = -4.9 * time * time + 0.2 + time;
       setState(() {
@@ -183,7 +183,7 @@ class _MainPage extends State<MainPage> {
       context: context,
       builder: (_) {
         return AlertDialog(
-          title: Text("wasted"),
+          title: Text('ゲームオーバー'),
           content: Text("あひるは死んでしまった!\nもっかいやる?"),
           actions: <Widget>[
             // ボタン領域
