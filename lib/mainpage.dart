@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jump/top.dart';
 import 'dart:async';
 import 'background.dart';
 import 'ahiru.dart';
@@ -46,7 +47,7 @@ class _MainPage extends State<MainPage> {
     Timer.periodic(
       Duration(milliseconds: 40),
       (timer) {
-        time += 0.03;
+        time += 0.02;
         height = -4.9 * time * time + 0.2 + time;
         setState(() {
           ahiruYaxis = initialHeight - height;
@@ -181,7 +182,7 @@ class _MainPage extends State<MainPage> {
   }
 
   void dialog() async {
-    var res = await showDialog(
+    await showDialog(
       context: context,
       builder: (_) {
         return AlertDialog(
@@ -190,29 +191,32 @@ class _MainPage extends State<MainPage> {
           actions: <Widget>[
             // ボタン領域
             FlatButton(
-              child: Text("Exit"),
-              onPressed: () => Navigator.of(context).pop(0),
-            ),
+                child: Text("Exit"),
+                onPressed: () {
+                  setState(() {
+                    resetPosition();
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Top(),
+                    ),
+                  );
+                }),
             FlatButton(
               child: Text("Continue"),
-              onPressed: () => Navigator.of(context).pop(1),
+              onPressed: () {
+                setState(() {
+                  resetPosition();
+                });
+                Navigator.of(context).pop();
+              },
             ),
           ],
         );
       },
     );
-    if (res == 0) {
-      // リセット
-      setState(() {
-        resetPosition();
-      });
-    } else if (res == 1) {
-      setState(() {
-        resetPosition();
-      });
-    } else {
-      dialog();
-    }
+    // リセット
   }
 
   @override
