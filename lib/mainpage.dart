@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'background.dart';
 import 'ahiru.dart';
-
 import 'cloud.dart';
 import 'building.dart';
 
@@ -44,119 +43,122 @@ class _MainPage extends State<MainPage> {
 
   void startGame() {
     gameHasStarted = true;
-    Timer.periodic(Duration(milliseconds: 40), (timer) {
-      time += 0.03;
-      height = -4.9 * time * time + 0.2 + time;
-      setState(() {
-        ahiruYaxis = initialHeight - height;
-      });
-      // 雲 -----------------------------------------------
-      setState(() {
-        // 画面外に出たら
-        if (cloudOne < -8) {
-          cloudOne += 16.0;
-        } else {
-          cloudOne -= 0.08;
-        }
-      });
+    Timer.periodic(
+      Duration(milliseconds: 40),
+      (timer) {
+        time += 0.03;
+        height = -4.9 * time * time + 0.2 + time;
+        setState(() {
+          ahiruYaxis = initialHeight - height;
+        });
+        // 雲 -----------------------------------------------
+        setState(() {
+          // 画面外に出たら
+          if (cloudOne < -8) {
+            cloudOne += 16.0;
+          } else {
+            cloudOne -= 0.08;
+          }
+        });
 
-      setState(() {
-        if (cloudTwo < -5) {
-          cloudTwo += 10.0;
-        } else {
-          cloudTwo -= 0.1;
-        }
-      });
+        setState(() {
+          if (cloudTwo < -5) {
+            cloudTwo += 10.0;
+          } else {
+            cloudTwo -= 0.1;
+          }
+        });
 
-      setState(() {
-        if (cloudThree < -4) {
-          cloudThree += 10.0;
-        } else {
-          cloudThree -= 0.15;
-        }
-      });
+        setState(() {
+          if (cloudThree < -4) {
+            cloudThree += 10.0;
+          } else {
+            cloudThree -= 0.15;
+          }
+        });
 
-      // 建物 --------------------------------------------------
-      setState(() {
-        if (buildingOne < -3) {
-          buildingOne += 4.5;
-        } else {
-          buildingOne -= 0.1;
-        }
-      });
+        // 建物 --------------------------------------------------
+        setState(() {
+          if (buildingOne < -3) {
+            buildingOne += 4.5;
+          } else {
+            buildingOne -= 0.1;
+          }
+        });
 
-      setState(() {
-        if (buildingTwo < -3) {
-          buildingTwo += 6.0;
-        } else {
-          buildingTwo -= 0.1;
-        }
-      });
+        setState(() {
+          if (buildingTwo < -3) {
+            buildingTwo += 6.0;
+          } else {
+            buildingTwo -= 0.1;
+          }
+        });
 
-      setState(() {
-        if (buildingThree < -3) {
-          buildingThree += 7.5;
-        } else {
-          buildingThree -= 0.1;
-        }
-      });
-      // 建物 --------------------------------------------------
-      setState(() {
-        if (back < -3) {
-          back += 4.5;
-        } else {
-          back -= 0.01;
-        }
-      });
+        setState(() {
+          if (buildingThree < -3) {
+            buildingThree += 7.5;
+          } else {
+            buildingThree -= 0.1;
+          }
+        });
+        // 建物 --------------------------------------------------
+        setState(() {
+          if (back < -3) {
+            back += 4.5;
+          } else {
+            back -= 0.01;
+          }
+        });
 
-      //! ゲームオーバー ======================================================
-      if (ahiruYaxis > 1.1 || ahiruYaxis < -3) {
-        timer.cancel();
-        dialog();
-      }
-
-      if (cloudOne <= 3 && cloudOne >= -3) {
-        if (ahiruYaxis < cloudOneDie) {
-          print('aaaaaaaaaaaaaaa');
+        //! ゲームオーバー ======================================================
+        if (ahiruYaxis > 1.1 || ahiruYaxis < -3) {
           timer.cancel();
           dialog();
         }
-      }
-      if (cloudTwo <= 2 && cloudTwo >= -1) {
-        if (ahiruYaxis < cloudTwoDie) {
-          print('bbbbbbbbbbbbbb');
-          timer.cancel();
-          dialog();
-        }
-      }
-      if (cloudThree <= 1 && cloudThree >= -1) {
-        if (ahiruYaxis < cloudThreeDie) {
-          print('cccccccccccccccccc');
-          timer.cancel();
-          dialog();
-        }
-      }
 
-      if (buildingOne <= 0.5 && buildingOne >= -0.5) {
-        if (ahiruYaxis > buildingOneDie) {
-          timer.cancel();
-          dialog();
+        if (cloudOne <= 3 && cloudOne >= -3) {
+          if (ahiruYaxis < cloudOneDie) {
+            print('aaaaaaaaaaaaaaa');
+            timer.cancel();
+            dialog();
+          }
         }
-      }
-      if (buildingTwo <= 0.5 && buildingTwo >= -0.5) {
-        if (ahiruYaxis > buildingTwoDie) {
-          timer.cancel();
-          dialog();
+        if (cloudTwo <= 2 && cloudTwo >= -1) {
+          if (ahiruYaxis < cloudTwoDie) {
+            print('bbbbbbbbbbbbbb');
+            timer.cancel();
+            dialog();
+          }
         }
-      }
+        if (cloudThree <= 1 && cloudThree >= -1) {
+          if (ahiruYaxis < cloudThreeDie) {
+            print('cccccccccccccccccc');
+            timer.cancel();
+            dialog();
+          }
+        }
 
-      if (buildingThree <= 0.5 && buildingThree >= -0.5) {
-        if (ahiruYaxis > buildingThreeDie) {
-          timer.cancel();
-          dialog();
+        if (buildingOne <= 0.5 && buildingOne >= -0.5) {
+          if (ahiruYaxis > buildingOneDie) {
+            timer.cancel();
+            dialog();
+          }
         }
-      }
-    });
+        if (buildingTwo <= 0.5 && buildingTwo >= -0.5) {
+          if (ahiruYaxis > buildingTwoDie) {
+            timer.cancel();
+            dialog();
+          }
+        }
+
+        if (buildingThree <= 0.5 && buildingThree >= -0.5) {
+          if (ahiruYaxis > buildingThreeDie) {
+            timer.cancel();
+            dialog();
+          }
+        }
+      },
+    );
   }
 
   void resetPosition() {

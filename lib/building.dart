@@ -12,7 +12,7 @@ class Building extends StatelessWidget {
       width: widthSize,
       decoration: BoxDecoration(
         color: Colors.blueGrey[400],
-        border: Border.all(width: 10, color: Colors.black),
+        border: Border.all(width: 4, color: Colors.black),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Row(
